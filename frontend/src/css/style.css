@@ -1,0 +1,193 @@
+/* =============================================================================
+   Dashboard — Surveillance Incendies Forestiers
+   ============================================================================= */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+    background: #f5f7fa;
+    min-height: 100vh;
+}
+
+/* ── Header ────────────────────────────────────────────────────────────────── */
+
+.header {
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    color: white;
+    padding: 16px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+.header h1 { font-size: 20px; font-weight: 600; }
+.header-info { display: flex; gap: 12px; align-items: center; }
+.status-badge {
+    padding: 6px 14px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 20px;
+    font-size: 13px;
+    display: flex; align-items: center; gap: 6px;
+}
+.status-dot {
+    width: 9px; height: 9px; border-radius: 50%;
+    background: #4CAF50; animation: pulse 2s infinite;
+}
+@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+/* ── Bannière d'alerte ─────────────────────────────────────────────────────── */
+
+.alert-banner {
+    background: linear-gradient(135deg, #ff5252, #ff1744);
+    color: white;
+    padding: 12px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    animation: alertPulse 1.5s infinite;
+}
+@keyframes alertPulse {
+    0%,100% { background: linear-gradient(135deg, #ff5252, #ff1744); }
+    50%     { background: linear-gradient(135deg, #ff1744, #c62828); }
+}
+.alert-content { display: flex; align-items: center; gap: 12px; }
+.alert-icon { font-size: 22px; }
+
+/* ── Layout principal ──────────────────────────────────────────────────────── */
+
+.dashboard-container {
+    display: grid;
+    grid-template-columns: 260px 1fr 300px;
+    height: calc(100vh - 57px);
+}
+
+/* ── Sidebar gauche — Liste des capteurs ───────────────────────────────────── */
+
+.sidebar-left {
+    background: white;
+    border-right: 2px solid #e0e0e0;
+    overflow-y: auto;
+}
+.sidebar-header {
+    padding: 16px;
+    background: #f8f9fa;
+    border-bottom: 2px solid #e0e0e0;
+    font-weight: 600; color: #333; font-size: 14px;
+}
+.sensor-list { padding: 8px; }
+.sensor-item {
+    background: white;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.sensor-item:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transform: translateY(-1px);
+}
+.sensor-item.status-normal  { border-left: 4px solid #4CAF50; }
+.sensor-item.status-warning { border-left: 4px solid #FF9800; }
+.sensor-item.status-alert   { border-left: 4px solid #F44336; background: #ffebee; }
+
+.sensor-header {
+    display: flex; justify-content: space-between;
+    align-items: center; margin-bottom: 8px;
+}
+.sensor-id { font-weight: 600; font-size: 14px; color: #333; }
+.sensor-status { width: 11px; height: 11px; border-radius: 50%; background: #4CAF50; }
+.status-alert .sensor-status { background: #F44336; animation: blink 1s infinite; }
+@keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.2; } }
+
+.sensor-info {
+    font-size: 12px; color: #666; margin: 4px 0;
+    display: flex; justify-content: space-between;
+}
+.btn-details {
+    background: #2196F3; color: white; border: none;
+    padding: 5px 10px; border-radius: 4px; font-size: 11px;
+    cursor: pointer; width: 100%; margin-top: 6px;
+}
+.btn-details:hover { background: #1976D2; }
+.risk-badge {
+    font-size: 11px; font-weight: 600;
+    padding: 2px 6px; border-radius: 10px;
+}
+.risk-badge.normal  { color: #2e7d32; background: #e8f5e9; }
+.risk-badge.warning { color: #e65100; background: #fff3e0; }
+.risk-badge.alert   { color: #c62828; background: #ffebee; }
+
+/* ── Carte ─────────────────────────────────────────────────────────────────── */
+
+.map-container { position: relative; overflow: hidden; }
+#map { width: 100%; height: 100%; z-index: 1; }
+
+/* ── Sidebar droite — Détails capteur ──────────────────────────────────────── */
+
+.sidebar-right {
+    background: white;
+    border-left: 2px solid #e0e0e0;
+    overflow-y: auto;
+}
+.metrics-container { padding: 16px; }
+
+.selected-sensor-header {
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px; background: #f8f9fa;
+    border-radius: 8px; margin-bottom: 14px;
+    border: 2px solid #e0e0e0;
+}
+.selected-icon { font-size: 28px; }
+.selected-name { font-weight: 700; font-size: 14px; color: #333; margin-bottom: 4px; }
+.selected-status-badge {
+    font-size: 12px; font-weight: 600;
+    padding: 3px 8px; border-radius: 10px; display: inline-block;
+}
+.selected-status-badge.normal  { color: #2e7d32; background: #e8f5e9; }
+.selected-status-badge.warning { color: #e65100; background: #fff3e0; }
+.selected-status-badge.alert   { color: #c62828; background: #ffebee; }
+
+.metric-card {
+    border: 2px solid #e0e0e0; border-radius: 8px;
+    padding: 14px; margin-bottom: 12px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+}
+.metric-header { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+.metric-icon {
+    width: 28px; height: 28px; border-radius: 6px;
+    display: flex; align-items: center; justify-content: center; font-size: 15px;
+}
+.metric-icon.temp     { background: #FFEBEE; }
+.metric-icon.humidity { background: #E3F2FD; }
+.metric-icon.smoke    { background: #FFF3E0; }
+.metric-title { font-weight: 600; font-size: 13px; color: #333; }
+
+.metric-value { font-size: 26px; font-weight: 700; margin-bottom: 8px; }
+.metric-value.temp     { color: #F44336; }
+.metric-value.humidity { color: #2196F3; }
+.metric-value.smoke    { color: #FF9800; }
+
+.chart-bar {
+    height: 7px; background: #e0e0e0;
+    border-radius: 4px; overflow: hidden; margin: 8px 0;
+}
+.chart-fill { height: 100%; border-radius: 4px; transition: width 0.5s; }
+.chart-fill.temp     { background: linear-gradient(90deg, #FFEB3B, #FF5722); }
+.chart-fill.humidity { background: linear-gradient(90deg, #03A9F4, #2196F3); }
+.chart-fill.smoke    { background: linear-gradient(90deg, #FFC107, #FF9800); }
+
+.status-summary {
+    background: #f8f9fa; border-radius: 8px;
+    padding: 12px; margin-top: 8px;
+}
+.status-row {
+    display: flex; justify-content: space-between;
+    align-items: center; padding: 6px 0; font-size: 12px;
+}
+.status-count { font-weight: 700; font-size: 15px; }
+.status-count.green  { color: #4CAF50; }
+.status-count.orange { color: #FF9800; }
+.status-count.red    { color: #F44336; }

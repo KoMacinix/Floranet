@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surveillance Incendies Forestiers — Dashboard</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ── Header ──────────────────────────────────────────────────────────────── -->
+<div class="header">
+    <h1>🔥 Surveillance Incendies Forestiers</h1>
+    <div class="header-info">
+        <div class="status-badge">
+            <div class="status-dot"></div>
+            <span>Système actif</span>
+        </div>
+        <div class="status-badge">
+            <span id="time">⏰ --:--:--</span>
+        </div>
+    </div>
+</div>
+
+<!-- ── Bannière d'alerte ───────────────────────────────────────────────────── -->
+<div class="alert-banner" id="alert-banner" style="display:none;">
+    <div class="alert-content">
+        <span class="alert-icon">⚠️</span>
+        <div>
+            <strong id="alert-title">ALERTE INCENDIE DÉTECTÉE</strong>
+            <div id="alert-detail" style="font-size:12px;opacity:0.9;"></div>
+        </div>
+    </div>
+    <button id="alert-btn" style="background:white;color:#d32f2f;border:none;padding:8px 16px;border-radius:4px;font-weight:600;cursor:pointer;">
+        Voir détails
+    </button>
+</div>
+
+<!-- ── Dashboard (3 colonnes) ──────────────────────────────────────────────── -->
+<div class="dashboard-container">
+
+    <!-- Sidebar gauche — Liste des capteurs -->
+    <div class="sidebar-left">
+        <div class="sidebar-header">📡 Liste des Capteurs</div>
+        <div class="sensor-list" id="sensor-list">
+            <!-- Rempli dynamiquement par sensorList.js -->
+        </div>
+    </div>
+
+    <!-- Carte -->
+    <div class="map-container">
+        <div id="map"></div>
+    </div>
+
+    <!-- Sidebar droite — Détails du capteur sélectionné -->
+    <div class="sidebar-right">
+        <div class="metrics-container">
+
+            <div class="selected-sensor-header">
+                <div class="selected-icon" id="selected-icon">📡</div>
+                <div style="flex:1;">
+                    <div class="selected-name" id="selected-name">Sélectionnez un capteur</div>
+                    <div class="selected-status-badge normal" id="selected-status-badge">● En attente</div>
+                </div>
+            </div>
+
+            <!-- Température -->
+            <div class="metric-card">
+                <div class="metric-header">
+                    <div class="metric-icon temp">🌡️</div>
+                    <div class="metric-title">Température</div>
+                </div>
+                <div class="metric-value temp" id="detail-temp">--°C</div>
+                <div class="chart-bar"><div class="chart-fill temp" id="detail-temp-bar" style="width:0%"></div></div>
+                <div style="font-size:11px;color:#666;margin-top:4px;">Seuil alerte: 40°C</div>
+            </div>
+
+            <!-- Humidité -->
+            <div class="metric-card">
+                <div class="metric-header">
+                    <div class="metric-icon humidity">💧</div>
+                    <div class="metric-title">Humidité</div>
+                </div>
+                <div class="metric-value humidity" id="detail-humidity">--%</div>
+                <div class="chart-bar"><div class="chart-fill humidity" id="detail-humidity-bar" style="width:0%"></div></div>
+                <div style="font-size:11px;color:#666;margin-top:4px;">Humidité relative de l'air</div>
+            </div>
+
+            <!-- Score de risque IA -->
+            <div class="metric-card">
+                <div class="metric-header">
+                    <div class="metric-icon smoke">🤖</div>
+                    <div class="metric-title">Score de risque IA</div>
+                </div>
+                <div class="metric-value smoke" id="detail-risk">--%</div>
+                <div class="chart-bar"><div class="chart-fill smoke" id="detail-risk-bar" style="width:0%"></div></div>
+                <div style="font-size:11px;color:#666;margin-top:4px;">Modèle LSTM — seuil alerte: 70%</div>
+            </div>
+
+            <!-- Résumé système -->
+            <div class="status-summary">
+                <div style="font-weight:600;margin-bottom:8px;color:#333;font-size:13px;">Résumé du système</div>
+                <div class="status-row">
+                    <span>Capteurs normaux</span>
+                    <span class="status-count green" id="count-normal">-</span>
+                </div>
+                <div class="status-row">
+                    <span>Capteurs en vigilance</span>
+                    <span class="status-count orange" id="count-warning">-</span>
+                </div>
+                <div class="status-row">
+                    <span>Capteurs en alerte</span>
+                    <span class="status-count red" id="count-alert">-</span>
+                </div>
+                <div class="status-row" style="border-top:1px solid #e0e0e0;margin-top:6px;padding-top:6px;">
+                    <span>Passerelle LoRa</span>
+                    <span style="color:#2196F3;font-weight:600;font-size:13px;">● Active</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- ── Scripts ─────────────────────────────────────────────────────────────── -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script type="module" src="js/app.js"></script>
+</body>
+</html>

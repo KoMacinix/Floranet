@@ -1,0 +1,46 @@
+# =============================================================================
+# Configuration du système de détection d'incendies
+# Les secrets (mots de passe, tokens) sont dans .env
+# =============================================================================
+
+# --- Modèle LSTM ---
+lstm:
+  input_dim: 2               # Nombre de features (température, humidité)
+  hidden_dim: 128             # Neurones par couche
+  num_layers: 3               # Couches LSTM
+  dropout: 0.3                # Taux de dropout
+  window_size: 30             # Taille de la fenêtre temporelle
+
+# --- Capteurs ---
+sensors:
+  - id: sensor_1
+    name: S-001
+    zone: Sud-Ouest
+    latitude: 45.52
+    longitude: -73.60
+  - id: sensor_2
+    name: S-002
+    zone: Centre
+    latitude: 45.51
+    longitude: -73.55
+  - id: sensor_3
+    name: S-003
+    zone: Nord
+    latitude: 45.53
+    longitude: -73.56
+
+# --- Seuils d'alerte ---
+alerts:
+  risk_threshold: 0.7         # Score >= 0.7 → ALERTE
+  warning_threshold: 0.3      # Score >= 0.3 → VIGILANCE
+  confirmation_count: 3       # Nombre de confirmations avant alerte
+  confirmation_window: 30     # Fenêtre de confirmation (secondes)
+  cooldown_period: 300        # Cooldown entre alertes (secondes)
+
+# --- Validation des données ---
+validation:
+  temperature_min: -40.0
+  temperature_max: 100.0
+  humidity_min: 0.0
+  humidity_max: 100.0
+  allow_missing_fields: false
