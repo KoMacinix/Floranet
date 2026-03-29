@@ -1,0 +1,33 @@
+{
+  "folders": [
+    {
+      "name": "backend",
+      "path": "backend"
+    },
+    {
+      "name": "frontend",
+      "path": "frontend"
+    },
+    {
+      "name": "embedded/gateway",
+      "path": "embedded/gateway"
+    },
+    {
+      "name": "embedded/node",
+      "path": "embedded/node"
+    },
+    {
+      "name": "embedded/tools",
+      "path": "embedded/tools"
+    }
+  ],
+  "settings": {
+    "python.defaultInterpreterPath": "${workspaceFolder:backend}/.venv/Scripts/python.exe",
+    "files.exclude": {
+      "**/__pycache__": true,
+      "**/.pytest_cache": true,
+      "**/node_modules": true,
+      "**/.pio": true
+    }
+  }
+}
