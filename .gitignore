@@ -1,0 +1,40 @@
+# =============================================================================
+# .gitignore — Fire Detection System (Python + Node.js + PlatformIO)
+# =============================================================================
+
+# ── Python (backend) ─────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.coverage
+htmlcov/
+.pytest_cache/
+*.log
+
+# ── Node.js (frontend) ──────────────────────────────────────────────────────
+node_modules/
+
+# ── PlatformIO (embedded) ───────────────────────────────────────────────────
+.pio/
+.vscode/
+
+# ── Secrets (ne JAMAIS commiter) ────────────────────────────────────────────
+.env
+
+# ── Données volumineuses ────────────────────────────────────────────────────
+# Garder les .npy et .pth hors de git (trop gros)
+# Si nécessaire, utiliser Git LFS
+backend/data/datasets/*.npy
+backend/data/models/*.pth
+backend/data/logs/*.log
+embedded/tools/data/*.csv
+
+# ── IDE / OS ────────────────────────────────────────────────────────────────
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+desktop.ini

@@ -1,0 +1,72 @@
+# =============================================================================
+# Configuration du système de détection d'incendies — Floranet
+# Les secrets (mots de passe, tokens) sont dans .env
+# =============================================================================
+
+# --- Modèle LSTM ---
+lstm:
+  input_dim: 3               # Nombre de features (température, humidité, fumée)
+  hidden_dim: 128
+  num_layers: 3
+  dropout: 0.3
+  window_size: 30
+
+# --- Capteurs LoRa ---
+sensors:
+  - id: sensor_1
+    name: "LoRa nœud 1"
+    zone: Sud-Ouest
+    latitude: 45.52
+    longitude: -73.60
+    type: dht22
+  - id: sensor_2
+    name: "LoRa nœud 2"
+    zone: Centre
+    latitude: 45.51
+    longitude: -73.55
+    type: dht22
+  - id: sensor_3
+    name: "LoRa nœud 3"
+    zone: Nord
+    latitude: 45.53
+    longitude: -73.56
+    type: mq2
+
+# --- Passerelle ---
+gateway:
+  id: gateway
+  name: "Passerelle LoRa"
+  zone: Base
+  latitude: 45.515
+  longitude: -73.575
+
+# --- Cycle TDMA ---
+tdma:
+  cycle_duration: 18
+  slot_duration: 6
+  num_slots: 3
+  watchdog_multiplier: 2
+
+# --- Seuils d'alerte ---
+alerts:
+  risk_threshold: 0.7
+  warning_threshold: 0.3
+  confirmation_count: 3
+  confirmation_window: 30
+  cooldown_period: 300
+  temperature_warning: 35.0
+  temperature_critical: 45.0
+  humidity_warning: 35.0
+  humidity_critical: 20.0
+  smoke_warning: 300
+  smoke_critical: 700
+
+# --- Validation des données ---
+validation:
+  temperature_min: -40.0
+  temperature_max: 100.0
+  humidity_min: 0.0
+  humidity_max: 100.0
+  smoke_min: 0
+  smoke_max: 1023
+  allow_missing_fields: false

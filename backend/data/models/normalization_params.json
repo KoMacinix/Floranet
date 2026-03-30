@@ -1,0 +1,7 @@
+{
+  "mean": [25.0, 60.0, 100.0],
+  "std": [10.0, 20.0, 150.0],
+  "features": ["temperature", "humidity", "smoke_level"],
+  "version": "2.0",
+  "description": "Paramètres de normalisation pour 3 features (temp, hum, fumée MQ-2)"
+}
